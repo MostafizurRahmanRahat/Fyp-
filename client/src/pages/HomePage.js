@@ -110,9 +110,9 @@ const HomePage = () => {
     <Layout title={"ALl Products - Best offers "}>
       {/* banner image */}
       <img
-        src="/images/banner.png"
-        className="banner-img"
-        alt="bannerimage"
+        src="/images/logo1.png"
+        className="logo1-img"
+        alt="logo1image"
         width={"100%"}
       />
       {/* banner image */}
@@ -163,9 +163,9 @@ const HomePage = () => {
                   <div className="card-name-price">
                     <h5 className="card-title">{p.name}</h5>
                     <h5 className="card-title card-price">
-                      {p.price.toLocaleString("en-US", {
+                      {p.price.toLocaleString("en-MY", {
                         style: "currency",
-                        currency: "USD",
+                        currency: "MYR",
                       })}
                     </h5>
                   </div>

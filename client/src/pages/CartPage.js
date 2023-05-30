@@ -16,6 +16,7 @@ const CartPage = () => {
   const [instance, setInstance] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [deliveryOption, setDeliveryOption] = useState("7 days"); // Add the state for delivery option
 
   //total price
   const totalPrice = () => {
@@ -26,7 +27,7 @@ const CartPage = () => {
       });
       return total.toLocaleString("en-US", {
         style: "currency",
-        currency: "USD",
+        currency: "MYR",
       });
     } catch (error) {
       console.log(error);
@@ -79,7 +80,7 @@ const CartPage = () => {
   };
   return (
     <Layout>
-      <div className=" cart-page">
+      <div className="cart-page">
         <div className="row">
           <div className="col-md-12">
             <h1 className="text-center bg-light p-2 mb-1">
@@ -114,6 +115,8 @@ const CartPage = () => {
                     <p>{p.name}</p>
                     <p>{p.description.substring(0, 30)}</p>
                     <p>Price : {p.price}</p>
+                    <p>Color : {p.color}</p>
+                    <p>Size : {p.price}</p>
                   </div>
                   <div className="col-md-4 cart-remove-btn">
                     <button
@@ -126,15 +129,16 @@ const CartPage = () => {
                 </div>
               ))}
             </div>
-            <div className="col-md-5 cart-summary ">
+            <div className="col-md-5 cart-summary">
               <h2>Cart Summary</h2>
               <p>Total | Checkout | Payment</p>
               <hr />
               <h4>Total : {totalPrice()} </h4>
+              <p>Delivery Time Within: {deliveryOption}</p> {/* Display the selected delivery option */}
               {auth?.user?.address ? (
                 <>
                   <div className="mb-3">
-                    <h4>Current Address</h4>
+                    <h4>Delivery Address</h4>
                     <h5>{auth?.user?.address}</h5>
                     <button
                       className="btn btn-outline-warning"

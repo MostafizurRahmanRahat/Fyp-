@@ -9,34 +9,42 @@ const ProductDetails = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
   const [relatedProducts, setRelatedProducts] = useState([]);
+  const [deliveryOption, setDeliveryOption] = useState("7 days"); // Default delivery option is set to "7 days"
+  const [cart, setCart] = useState([]);
 
-  //initalp details
+  // Inital details
   useEffect(() => {
     if (params?.slug) getProduct();
   }, [params?.slug]);
-  //getProduct
+
+  // Get product
   const getProduct = async () => {
     try {
-      const { data } = await axios.get(
-        `/api/v1/product/get-product/${params.slug}`
-      );
+      const { data } = await axios.get(`/api/v1/product/get-product/${params.slug}`);
       setProduct(data?.product);
       getSimilarProduct(data?.product._id, data?.product.category._id);
     } catch (error) {
       console.log(error);
     }
   };
-  //get similar product
+
+  // Get similar products
   const getSimilarProduct = async (pid, cid) => {
     try {
-      const { data } = await axios.get(
-        `/api/v1/product/related-product/${pid}/${cid}`
-      );
+      const { data } = await axios.get(`/api/v1/product/related-product/${pid}/${cid}`);
       setRelatedProducts(data?.products);
     } catch (error) {
       console.log(error);
     }
   };
+
+  // Add product to cart
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+    localStorage.setItem("cart", JSON.stringify([...cart, product]));
+    alert("Item added to cart");
+  };
+
   return (
     <Layout>
       <div className="row container product-details">
@@ -52,19 +60,39 @@ const ProductDetails = () => {
         <div className="col-md-6 product-details-info">
           <h1 className="text-center">Product Details</h1>
           <hr />
-          <h6>Name : {product.name}</h6>
-          <h6>Description : {product.description}</h6>
+          <h6>Name: {product.name}</h6>
+          <h6>Description: {product.description}</h6>
           <h6>
-            Price :
-            {product?.price?.toLocaleString("en-US", {
+            Price:{" "}
+            {product?.price?.toLocaleString("en-MY", {
               style: "currency",
-              currency: "USD",
+              currency: "MYR",
             })}
           </h6>
-          <h6>Category : {product?.category?.name}</h6>
+          <h6>Category: {product?.category?.name}</h6>
           <h6>Color: {product?.color}</h6> {/* Add color field */}
           <h6>Size: {product?.size}</h6> {/* Add size field */}
-          <button class="btn btn-secondary ms-1">ADD TO CART</button>
+          <div className="delivery-option">
+            <h6>Delivery Time within:</h6>
+            <select
+              value={deliveryOption}
+              onChange={(e) => setDeliveryOption(e.target.value)}
+            >
+              <option value="1">7 days</option>
+              <option value="2">10 days</option>
+              <option value="3">15 days</option>
+              <option value="4">20 days</option>
+              <option value="5">30 days</option>
+              
+              {/* Add more delivery options if needed */}
+            </select>
+          </div>
+          <button
+            className="btn btn-secondary ms-1"
+            onClick={() => addToCart(product)}
+          >
+            ADD TO CART
+          </button>
         </div>
       </div>
       <hr />
@@ -85,15 +113,13 @@ const ProductDetails = () => {
                 <div className="card-name-price">
                   <h5 className="card-title">{p.name}</h5>
                   <h5 className="card-title card-price">
-                    {p.price.toLocaleString("en-US", {
+                    {p.price.toLocaleString("en-MY", {
                       style: "currency",
-                      currency: "USD",
+                      currency: "MYR",
                     })}
                   </h5>
                 </div>
-                <p className="card-text ">
-                  {p.description.substring(0, 60)}...
-                </p>
+                <p className="card-text ">{p.description.substring(0, 60)}...</p>
                 <div className="card-name-price">
                   <button
                     className="btn btn-info ms-1"
@@ -101,19 +127,9 @@ const ProductDetails = () => {
                   >
                     More Details
                   </button>
-                  {/* <button
-                  className="btn btn-dark ms-1"
-                  onClick={() => {
-                    setCart([...cart, p]);
-                    localStorage.setItem(
-                      "cart",
-                      JSON.stringify([...cart, p])
-                    );
-                    toast.success("Item Added to cart");
-                  }}
-                >
-                  ADD TO CART
-                </button> */}
+                  <button className="btn btn-dark ms-1" onClick={() => addToCart(p)}>
+                    ADD TO CART
+                  </button>
                 </div>
               </div>
             </div>

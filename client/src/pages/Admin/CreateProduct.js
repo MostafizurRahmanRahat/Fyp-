@@ -164,9 +164,17 @@ const CreateProduct = () => {
                     setColor(value);
                   }}
                 >
-                  <Option value="red">Red</Option>
-                  <Option value="blue">Blue</Option>
-                  <Option value="green">Green</Option>
+                  <Option value="Red">Red</Option>
+                  <Option value="Blue">Blue</Option>
+                  <Option value="Black">Black</Option>
+                  <Option value="White">White</Option>
+                  <Option value="Yellow">Yellow</Option>
+                  <Option value="Green">Green</Option>
+                  <Option value="Brown">Brown</Option>
+                  <Option vale="Navy Blue">Navy Blue</Option>
+                  <Option value="Maroon">Maroon</Option>
+                  <Option value="Pink">Pink</Option>
+                  <Option value="Brown">Brown</Option>
                 </Select>
               </div>
               <div className="mb-3">
@@ -180,9 +188,12 @@ const CreateProduct = () => {
                     setSize(value);
                   }}
                 >
+                  <Option value="xsmall">Xtra Small</Option>
                   <Option value="small">Small</Option>
                   <Option value="medium">Medium</Option>
                   <Option value="large">Large</Option>
+                  <Option value="xlarge">Xtra Large</Option>
+                  <Option value="xxlarge">XX Large</Option>
                 </Select>
               </div>
               <div className="mb-3">

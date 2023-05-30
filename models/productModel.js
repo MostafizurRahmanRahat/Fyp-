@@ -36,12 +36,12 @@ const productSchema = new mongoose.Schema(
     },
     color: {
       type: String,
-      enum: ["red", "blue", "green"], // Add your color options here
+      enum: ["Red", "Blue", "Green", "Brown", "Pink", "Yellow", "White", "Black", "Maroon", "Navy Blue"], // Add your color options here
       required: true,
     },
     size: {
       type: String,
-      enum: ["small", "medium", "large"], // Add your size options here
+      enum: ["xamall","small", "medium", "large", "xlarge", "xxlarge"], // Add your size options here
       required: true,
     },
   },
