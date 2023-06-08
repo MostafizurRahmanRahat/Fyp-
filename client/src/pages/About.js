@@ -14,13 +14,9 @@ const About = () => {
         </div>
         <div className="col-md-4">
           <p className="text-justify mt-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
-            officiis obcaecati esse tempore unde ratione, eveniet mollitia,
-            perferendis eius temporibus dicta blanditiis doloremque explicabo
-            quasi sunt vero optio cum aperiam vel consectetur! Laborum enim
-            accusantium atque, excepturi sapiente amet! Tenetur ducimus aut
-            commodi illum quidem neque tempora nam.
-          </p>
+          Welcome to Unblemished Clothing Store
+
+At Unblemished Clothing Store, we are passionate about providing you with a seamless and enjoyable online shopping experience. With a wide range of high-quality products and exceptional customer service, we strive to be your go-to destination for all your shopping needs. Our mission is to make online shopping convenient, affordable, and enjoyable for everyone. We aim to bring you the latest trends, best deals, and an extensive selection of products to cater to your diverse preferences. Whether you're searching for fashion items, electronics, home decor, or gifts, we've got you covered. We understand the importance of quality and reliability when it comes to online shopping. That's why we partner with reputable suppliers and brands to ensure that every product we offer meets the highest standards. Our dedicated team carefully curates our inventory to bring you a collection of products that you can trust.</p>
         </div>
       </div>
     </Layout>

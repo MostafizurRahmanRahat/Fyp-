@@ -1,13 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Layout from "./../components/Layout/Layout";
 import { useCart } from "../context/cart";
 import { useAuth } from "../context/auth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import DropIn from "braintree-web-drop-in-react";
 import { AiFillWarning } from "react-icons/ai";
 import axios from "axios";
 import toast from "react-hot-toast";
 import "../styles/CartStyles.css";
+import { DeliveryContext } from "../context/DeliveryProvider";
+
+const commentBoxStyle = {
+  border: '1px solid #ccc',
+  padding: '10px',
+  borderRadius: '4px',
+  marginTop: '30px',
+};
+
+const commentStyle = {
+  marginBottom: '10px',
+};
+
+const textareaStyle = {
+  width: '200%',
+  height: '50px',
+  padding: '5px',
+  borderRadius: '4px',
+};
 
 const CartPage = () => {
   const [auth, setAuth] = useAuth();
@@ -16,8 +35,9 @@ const CartPage = () => {
   const [instance, setInstance] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [deliveryOption, setDeliveryOption] = useState("7 days"); // Add the state for delivery option
+  const { deliveryOption, customColor, setCustomColor, customSize, setCustomSize, comment, setcomment } = useContext(DeliveryContext); // Default delivery option is set to "7 days"
 
+  const location = useLocation();
   //total price
   const totalPrice = () => {
     try {
@@ -57,7 +77,8 @@ const CartPage = () => {
   };
   useEffect(() => {
     getToken();
-  }, [auth?.token]);
+
+  }, [auth?.token, location]);
 
   //handle payments
   const handlePayment = async () => {
@@ -78,6 +99,11 @@ const CartPage = () => {
       setLoading(false);
     }
   };
+
+
+  const handleSubmit = () => {
+
+  }
   return (
     <Layout>
       <div className="cart-page">
@@ -89,9 +115,8 @@ const CartPage = () => {
                 : `Hello  ${auth?.token && auth?.user?.name}`}
               <p className="text-center">
                 {cart?.length
-                  ? `You Have ${cart.length} items in your cart ${
-                      auth?.token ? "" : "please login to checkout !"
-                    }`
+                  ? `You Have ${cart.length} items in your cart ${auth?.token ? "" : "please login to checkout !"
+                  }`
                   : " Your Cart Is Empty"}
               </p>
             </h1>
@@ -108,15 +133,32 @@ const CartPage = () => {
                       className="card-img-top"
                       alt={p.name}
                       width="100%"
-                      height={"130px"}
+                      height={"100px"}
                     />
                   </div>
                   <div className="col-md-4">
                     <p>{p.name}</p>
-                    <p>{p.description.substring(0, 30)}</p>
+                    <p>{p.description.substring(0, 100)}</p>
                     <p>Price : {p.price}</p>
-                    <p>Color : {p.color}</p>
-                    <p>Size : {p.price}</p>
+                    <p>Color : {customColor === null ? p.color : customColor}</p>
+                    <input
+                      onChange={(e) => setCustomColor(e.target.value)}
+                      placeholder="input custom color"
+                    ></input>
+                    <p>Size : {customSize === null ? p.size : customSize}</p>
+                    <input
+                      onChange={(e) => setCustomSize(e.target.value)}
+                      placeholder="input custom size"
+                    ></input>
+                    <div style={commentBoxStyle}>
+                      <div style={commentStyle}>{comment}</div>
+                      <textarea
+                        // value={comment}
+                        onChange={(e) => setcomment(e.target.value)}
+                        placeholder="Type your comment..."
+                        style={textareaStyle}
+                      />
+                    </div>
                   </div>
                   <div className="col-md-4 cart-remove-btn">
                     <button
@@ -134,7 +176,7 @@ const CartPage = () => {
               <p>Total | Checkout | Payment</p>
               <hr />
               <h4>Total : {totalPrice()} </h4>
-              <p>Delivery Time Within: {deliveryOption}</p> {/* Display the selected delivery option */}
+              <p>Delivery Time Within: {deliveryOption}</p>
               {auth?.user?.address ? (
                 <>
                   <div className="mb-3">

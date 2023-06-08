@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Layout from "./../components/Layout/Layout";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import "../styles/ProductDetailsStyles.css";
+import { DeliveryContext } from "../context/DeliveryProvider";
+import { useCart } from "../context/cart";
 
 const ProductDetails = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
   const [relatedProducts, setRelatedProducts] = useState([]);
-  const [deliveryOption, setDeliveryOption] = useState("7 days"); // Default delivery option is set to "7 days"
-  const [cart, setCart] = useState([]);
-
+  const { deliveryOption, setDeliveryOption } = useContext(DeliveryContext); // Default delivery option is set to "7 days"
+  const [cart, setCart] = useCart();
+  console.log(deliveryOption)
   // Inital details
   useEffect(() => {
     if (params?.slug) getProduct();
@@ -78,12 +80,12 @@ const ProductDetails = () => {
               value={deliveryOption}
               onChange={(e) => setDeliveryOption(e.target.value)}
             >
-              <option value="1">7 days</option>
-              <option value="2">10 days</option>
-              <option value="3">15 days</option>
-              <option value="4">20 days</option>
-              <option value="5">30 days</option>
-              
+              <option value="7 days1">7 days</option>
+              <option value="10 days">10 days</option>
+              <option value="15 days">15 days</option>
+              <option value="20 days">20 days</option>
+              <option value="30 days">30 days</option>
+
               {/* Add more delivery options if needed */}
             </select>
           </div>

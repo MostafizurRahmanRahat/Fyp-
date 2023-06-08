@@ -8,6 +8,7 @@ import moment from "moment";
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [auth, setAuth] = useAuth();
+
   const getOrders = async () => {
     try {
       const { data } = await axios.get("/api/v1/auth/orders");
@@ -20,6 +21,7 @@ const Orders = () => {
   useEffect(() => {
     if (auth?.token) getOrders();
   }, [auth?.token]);
+
   return (
     <Layout title={"Your Orders"}>
       <div className="container-flui p-3 m-3 dashboard">
@@ -31,14 +33,14 @@ const Orders = () => {
             <h1 className="text-center">All Orders</h1>
             {orders?.map((o, i) => {
               return (
-                <div className="border shadow">
+                <div className="border shadow" key={o._id}>
                   <table className="table">
                     <thead>
                       <tr>
                         <th scope="col">#</th>
                         <th scope="col">Status</th>
                         <th scope="col">Buyer</th>
-                        <th scope="col"> date</th>
+                        <th scope="col">Date</th>
                         <th scope="col">Payment</th>
                         <th scope="col">Quantity</th>
                       </tr>
@@ -55,7 +57,7 @@ const Orders = () => {
                     </tbody>
                   </table>
                   <div className="container">
-                    {o?.products?.map((p, i) => (
+                    {o?.products?.map((p, j) => (
                       <div className="row mb-2 p-3 card flex-row" key={p._id}>
                         <div className="col-md-4">
                           <img
@@ -69,7 +71,10 @@ const Orders = () => {
                         <div className="col-md-8">
                           <p>{p.name}</p>
                           <p>{p.description.substring(0, 30)}</p>
-                          <p>Price : {p.price}</p>
+                          <p>Price: {p.price}</p>
+                          <p>Color: {p.color}</p> {/* Added color */}
+                          <p>Size: {p.size}</p> {/* Added size */}
+                          <p>Comment: {p.comment}</p> {/* Added comment */}
                         </div>
                       </div>
                     ))}

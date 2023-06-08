@@ -13,12 +13,13 @@ const AdminOrders = () => {
     "Not Process",
     "Processing",
     "Shipped",
-    "deliverd",
-    "cancel",
+    "Delivered",
+    "Canceled",
   ]);
-  const [changeStatus, setCHangeStatus] = useState("");
+  const [changeStatus, setChangeStatus] = useState("");
   const [orders, setOrders] = useState([]);
   const [auth, setAuth] = useAuth();
+
   const getOrders = async () => {
     try {
       const { data } = await axios.get("/api/v1/auth/all-orders");
@@ -42,6 +43,7 @@ const AdminOrders = () => {
       console.log(error);
     }
   };
+
   return (
     <Layout title={"All Orders Data"}>
       <div className="row dashboard">
@@ -52,16 +54,20 @@ const AdminOrders = () => {
           <h1 className="text-center">All Orders</h1>
           {orders?.map((o, i) => {
             return (
-              <div className="border shadow">
+              <div className="border shadow" key={o._id}>
                 <table className="table">
                   <thead>
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Status</th>
                       <th scope="col">Buyer</th>
-                      <th scope="col"> date</th>
+                      <th scope="col">Date</th>
                       <th scope="col">Payment</th>
                       <th scope="col">Quantity</th>
+                      <th scope="col">Size</th>
+                      <th scope="col">Color</th>
+                      <th scope="col">Comment</th>
+                      <th scope="col">Delivery</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -84,6 +90,10 @@ const AdminOrders = () => {
                       <td>{moment(o?.createAt).fromNow()}</td>
                       <td>{o?.payment.success ? "Success" : "Failed"}</td>
                       <td>{o?.products?.length}</td>
+                      <td>{o?.size}</td>
+                      <td>{o?.color}</td>
+                      <td>{o?.comment}</td>
+                      <td>{o?.delivery}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -96,13 +106,13 @@ const AdminOrders = () => {
                           className="card-img-top"
                           alt={p.name}
                           width="100px"
-                          height={"100px"}
+                          height="100px"
                         />
                       </div>
                       <div className="col-md-8">
                         <p>{p.name}</p>
-                        <p>{p.description.substring(0, 30)}</p>
-                        <p>Price : {p.price}</p>
+                        <p>{p.description.substring(0, 100)}</p>
+                        <p>Price: {p.price}</p>
                       </div>
                     </div>
                   ))}

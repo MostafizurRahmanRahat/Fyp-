@@ -48,10 +48,8 @@ const Header = () => {
               </li>
               <li className="nav-item dropdown">
                 <Link
-                  className="nav-link dropdown-toggle"
-                  to={"/categories"}
-                  data-bs-toggle="dropdown"
-                >
+                  className="nav-link dropdown-toggle" to={"/categories"} data-bs-toggle="dropdown">
+                  
                   Categories
                 </Link>
                 <ul className="dropdown-menu">
